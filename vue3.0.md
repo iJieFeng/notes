@@ -383,9 +383,89 @@ plusOne.value = 1
 console.log(count.value) // 0
 ```
 
- 
+范例：
+
+```vue
+<template>
+  <input
+    style="padding: 6px; margin-bottom: 20px"
+    id="inp"
+    type="text"
+    placeholder="搜索"
+    v-model="keyWord"
+  />
+  <table width="600px" border cellpadding="10px 0" cellspacing="0">
+    <thead>
+      <tr>
+        <th>商品名称</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>总价</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in resultList" :key="index">
+        <td align="center">{{ item.name }}</td>
+        <td align="center">{{ item.price }}</td>
+        <td align="center">
+          <button @click="item.num > 1 ? item.num-- : null">-</button>
+          {{ item.num }}
+          <button @click="item.num < 99 ? item.num++ : null">+</button>
+        </td>
+        <td align="center">{{ item.price * item.num }}</td>
+        <td align="center">
+          <button @click="del(index)">删除</button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5" align="right">总额：{{ total }}</td>
+      </tr>
+    </tfoot>
+  </table>
+</template>
+
+<script setup lang="ts">
+import { computed, reactive, ref } from 'vue'
+
+interface List {
+  name: string
+  price: number
+  num: number
+}
+
+const list = reactive<List[]>([
+  { name: '苹果', price: 500, num: 1 },
+  { name: '香蕉', price: 200, num: 1 },
+  { name: '橘子', price: 300, num: 1 }
+])
+
+const keyWord = ref<string>('')
+const resultList = computed(() => {
+  return list.filter((item) => item.name.includes(keyWord.value))
+})
+
+const total = computed(() => {
+  return resultList.value.reduce((total: number, item: List) => {
+    return total + item.price * item.num
+  }, 0)
+})
+
+const del = (index: number) => {
+  list.splice(index, 1)
+}
+</script>
+
+<style scoped></style>
+```
+
+
 
 #### watchEffect()
+
+[watchEffect](https://cn.vuejs.org/api/reactivity-core.html#watcheffect) 立即运行一个函数，同时响应式地追踪其依赖，并在依赖更改时重新执行。
 
 立即执行，没有惰性；不需要传递要监听的数据，自动感知代码依赖； 不能获取之前数据的值，只能获取当前的值
 
@@ -429,9 +509,13 @@ const stop = watchEffect(() => {})
 stop()
 ```
 
+
+
 watchPostEffect() 
 
 [`watchEffect()`](https://cn.vuejs.org/api/reactivity-core.html#watcheffect) 使用 `flush: 'post'` 选项时的别名。
+
+
 
 watchSyncEffect()
 
@@ -439,9 +523,48 @@ watchSyncEffect()
 
 
 
+范例
+
+```vue
+<template>
+  <input
+    style="padding: 6px; margin-bottom: 20px"
+    id="inp"
+    type="text"
+    placeholder="watch"
+    v-model="keyWord"
+  />
+  <button @click="stop">停止监听</button>
+</template>
+
+<script setup lang="ts">
+import { ref, watchEffect } from 'vue'
+const keyWord = ref<string>('')
+const stop = watchEffect(
+  (oninvalidate) => {
+    const inp: HTMLInputElement = document.getElementById('inp') as HTMLInputElement
+    console.log('获取dom元素', inp)
+    console.log(keyWord.value)
+    oninvalidate(() => {
+      console.log('before update')
+    })
+  },
+  {
+    flush: 'post'
+  }
+)
+</script>
+
+<style scoped></style>
+```
+
+
+
 #### watch()
 
-具备一定的惰性，即数据发生变化时才会执行；参数可以拿到原始和当前值；可以监听多个数据的变化，用一个监听器承载
+[watch](https://cn.vuejs.org/api/reactivity-core.html#watch) 侦听一个或多个响应式数据源，并在数据源变化时调用所给的回调函数。
+
+`watch()` 默认是懒侦听的，即仅在侦听源发生变化时才执行回调函数。
 
 第一个参数是侦听器的**源**。这个来源可以是以下几种：
 
