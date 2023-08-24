@@ -1244,3 +1244,119 @@ export default useClickOutside
 
 ```
 
+
+
+# 传送组件
+
+
+
+
+
+# 动态组件
+
+
+
+
+
+# 异步组件
+
+defineAsyncComponent()
+
+<Suspense></Suspense> 
+
+代码分包
+
+性能优化
+
+
+
+# 插槽
+
+匿名插槽
+
+
+
+具名插槽
+
+
+
+插槽作用域
+
+
+
+动态插槽
+
+
+
+# Teleport
+
+
+
+# keep-alive
+
+
+
+# transition
+
+
+
+# Provide/Inject
+
+依赖注入
+
+
+
+# BUS
+
+
+
+
+
+# Mitt
+
+
+
+
+
+# TSX
+
+返回一个渲染函数
+
+optionsApi
+
+setup 函数模式
+
+ref temp;ate tsx并不会自定解包 要ref.value
+
+v-show 支持
+
+v-if 不支持 三元表达式替换
+
+v-for 不支持 使用map代替
+
+v-bind 使用 {}代替
+
+props emit 支持
+
+@不支持 使用on
+
+插槽
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 
+
+
+
