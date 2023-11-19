@@ -1070,8 +1070,6 @@ Global API
 
 ## 内置组件
 
-
-
 ### Teleport
 
 传送模板
@@ -1246,10 +1244,6 @@ export default useClickOutside
 
 
 
-# 传送组件
-
-
-
 
 
 # 动态组件
@@ -1288,8 +1282,6 @@ defineAsyncComponent()
 
 
 
-# Teleport
-
 
 
 # keep-alive
@@ -1297,12 +1289,6 @@ defineAsyncComponent()
 
 
 # transition
-
-
-
-# Provide/Inject
-
-依赖注入
 
 
 
@@ -1343,20 +1329,6 @@ props emit 支持
 插槽
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 
 
 
 
